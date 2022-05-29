@@ -68,6 +68,10 @@ public class OriginalGraph<T> {
         return map.get(origin).contains(end);
     }
 
+    public void dijkstra() {
+
+    }
+
 //    public void breathFirstSearch(T start) {
 //
 //        Queue<T> queue = new LinkedList<>();

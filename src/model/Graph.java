@@ -1,16 +1,24 @@
 package model;
 
-public interface Graph<T> {
+import java.util.*;
 
-    void addVertex(T data);
+public class Graph<T> {
 
-    void addEdge(T origin, T end, boolean bidirectional);
+    private List<Node<T>> nodes = new ArrayList<>();
 
-    int getVertexCount();
+    public void addNode(Node<T> node) {
 
-    int getEdgesCount(boolean bidirectional);
+        if (!nodes.contains(node)) {
 
-    boolean hasVertex(T data);
+            nodes.add(node);
+        }
+    }
 
-    boolean hasEdge(T origin, T end);
+    public List<Node<T>> getNodes() {
+        return nodes;
+    }
+
+    public void setNodes(List<Node<T>> nodes) {
+        this.nodes = nodes;
+    }
 }

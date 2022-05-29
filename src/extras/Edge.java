@@ -1,4 +1,4 @@
-package model;
+package extras;
 
 public class Edge<T> {
 

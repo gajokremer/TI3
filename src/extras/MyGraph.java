@@ -1,9 +1,9 @@
-package model;
+package extras;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public class MyGraph<T> implements Graph<T> {
+public class MyGraph<T> {
 
    private List<T> vertexes;
    private List<Edge<T>> edges;
@@ -29,7 +29,7 @@ public class MyGraph<T> implements Graph<T> {
         this.edges = edges;
     }
 
-    @Override
+    
     public void addVertex(T data) {
 
         if (!vertexes.contains(data)) {
@@ -38,7 +38,6 @@ public class MyGraph<T> implements Graph<T> {
         }
     }
 
-    @Override
     public void addEdge(T origin, T end, boolean bidirectional) {
 
         if (!vertexes.contains(origin)) {
@@ -59,22 +58,18 @@ public class MyGraph<T> implements Graph<T> {
         }
     }
 
-    @Override
     public int getVertexCount() {
         return 0;
     }
 
-    @Override
     public int getEdgesCount(boolean bidirectional) {
         return 0;
     }
 
-    @Override
     public boolean hasVertex(T data) {
         return false;
     }
 
-    @Override
     public boolean hasEdge(T origin, T end) {
         return false;
     }
