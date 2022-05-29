@@ -1,5 +1,7 @@
 package model;
 
+import jdk.nashorn.internal.objects.annotations.Constructor;
+
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -12,11 +14,11 @@ public class Node<T> {
     private List<Node<T>> shortestPath = new LinkedList<>();
     private final Map<Node<T>, Integer> adjacentNodes = new HashMap<>();
 
-    public Node(T value) {
-        this.value = value;
+    public Node() {
     }
 
-    public Node() {
+    public Node(T value) {
+        this.value = value;
     }
 
     public void addDestination(Node<T> destination, int distance) {
@@ -50,5 +52,15 @@ public class Node<T> {
 
     public Map<Node<T>, Integer> getAdjacentNodes() {
         return adjacentNodes;
+    }
+
+    @Override
+    public String toString() {
+        return "Node{" +
+                "value=" + value +
+                ", distance=" + distance +
+                ", shortestPath=" + shortestPath +
+                ", adjacentNodes=" + adjacentNodes +
+                '}';
     }
 }
