@@ -1,7 +1,5 @@
 package model;
 
-import jdk.nashorn.internal.objects.annotations.Constructor;
-
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -10,9 +8,10 @@ import java.util.Map;
 public class Node<T> {
 
     private T value;
-    private Integer distance = Integer.MAX_VALUE;
+//    private Integer distance = Integer.MAX_VALUE;
+    private Double distance = Double.POSITIVE_INFINITY;
     private List<Node<T>> shortestPath = new LinkedList<>();
-    private final Map<Node<T>, Integer> adjacentNodes = new HashMap<>();
+    private final Map<Node<T>, Double> adjacentNodes = new HashMap<>();
 
     public Node() {
     }
@@ -21,7 +20,7 @@ public class Node<T> {
         this.value = value;
     }
 
-    public void addDestination(Node<T> destination, int distance) {
+    public void addDestination(Node<T> destination, double distance) {
 
         adjacentNodes.put(destination, distance);
     }
@@ -34,11 +33,11 @@ public class Node<T> {
         this.value = value;
     }
 
-    public Integer getDistance() {
+    public Double getDistance() {
         return distance;
     }
 
-    public void setDistance(Integer distance) {
+    public void setDistance(Double distance) {
         this.distance = distance;
     }
 
@@ -50,7 +49,7 @@ public class Node<T> {
         this.shortestPath = shortestPath;
     }
 
-    public Map<Node<T>, Integer> getAdjacentNodes() {
+    public Map<Node<T>, Double> getAdjacentNodes() {
         return adjacentNodes;
     }
 
@@ -59,8 +58,8 @@ public class Node<T> {
         return "Node{" +
                 "value=" + value +
                 ", distance=" + distance +
-                ", shortestPath=" + shortestPath +
-                ", adjacentNodes=" + adjacentNodes +
+//                ", shortestPath=" + shortestPath +
+//                ", adjacentNodes=" + adjacentNodes +
                 '}';
     }
 }

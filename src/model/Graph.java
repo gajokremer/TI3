@@ -38,4 +38,12 @@ public class Graph<T> {
     public void setNodes(List<Node<T>> nodes) {
         this.nodes = nodes;
     }
+
+    @Override
+    public String toString() {
+        return "Graph{" +
+                "n=" + n +
+                ", nodes=" + nodes +
+                '}';
+    }
 }

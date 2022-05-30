@@ -6,7 +6,7 @@ public class Dijkstra<T> {
 
     public Graph<T> calculateShortestPathFromSource(Graph<T> graph, Node<T> source) {
 
-        source.setDistance(0);
+        source.setDistance(0.0);
 
 //        Set<GenericNode<T>> settledNodes = new HashSet<>();
 //        Set<Graph.Node> unsettledNodes = new HashSet<>();
@@ -21,12 +21,12 @@ public class Dijkstra<T> {
             unsettledNodes.remove(currentNode);
 
 //            for (Map.Entry<Node, Integer> adjacencyPair :
-            for (Map.Entry<Node<T>, Integer> adjacencyPair :
+            for (Map.Entry<Node<T>, Double> adjacencyPair :
                     currentNode.getAdjacentNodes().entrySet()) {
 
                 Node<T> adjacentNode = adjacencyPair.getKey();
 //                Integer edgeWeight = adjacencyPair.getValue();
-                int edgeWeight = adjacencyPair.getValue();
+                double edgeWeight = adjacencyPair.getValue();
 
                 if (!settledNodes.contains(adjacentNode)) {
 
@@ -41,9 +41,9 @@ public class Dijkstra<T> {
         return graph;
     }
 
-    private void calculateMinimumDistance(Node<T> evaluationNode, Integer edgeWeight, Node<T> sourceNode) {
+    private void calculateMinimumDistance(Node<T> evaluationNode, Double edgeWeight, Node<T> sourceNode) {
 
-        Integer sourceDistance = sourceNode.getDistance();
+        Double sourceDistance = sourceNode.getDistance();
 
         if (sourceDistance + edgeWeight < evaluationNode.getDistance()) {
 
@@ -59,11 +59,12 @@ public class Dijkstra<T> {
     private Node<T> getLowestDistanceNode(List<Node<T>> unsettledNodes) {
 
         Node<T> lowestDistanceNode = null;
-        int lowestDistance  = Integer.MAX_VALUE;
+//        int lowestDistance  = Integer.MAX_VALUE;
+        double lowestDistance = Double.POSITIVE_INFINITY;
 
         for (Node<T> node : unsettledNodes) {
 
-            int nodeDistance = node.getDistance();
+            double nodeDistance = node.getDistance();
 
             if (nodeDistance < lowestDistance) {
 
@@ -75,25 +76,25 @@ public class Dijkstra<T> {
         return lowestDistanceNode;
     }
 
-    public String showPath(Graph<Character> graph, Node<T> source,
-                            Node<Character> destination) {
+    public String showPath(Graph<T> graph, Node<T> source,
+                            Node<T> destination) {
 
-//        return "From " + source.getValue() + " to " +
-//                        destination.getValue() + ": " + destination.getDistance();
+        return "From " + source.getValue() + " to " +
+                        destination.getValue() + ": " + destination.getDistance();
 
-        String line = "From " + source.getValue() + " to " +
-                        destination.getValue() + ": ";
-
-            if (destination.getDistance() == Integer.MAX_VALUE) {
-
-                line += Double.POSITIVE_INFINITY;
-
-            } else {
-
-                line += destination.getDistance();
-            }
-
-            return line;
+//        String line = "From " + source.getValue() + " to " +
+//                        destination.getValue() + ": ";
+//
+//            if (destination.getDistance() == Integer.MAX_VALUE) {
+//
+//                line += Double.POSITIVE_INFINITY;
+//
+//            } else {
+//
+//                line += destination.getDistance();
+//            }
+//
+//            return line;
     }
 
 //    public static void main(String[] args) {
