@@ -5,9 +5,7 @@ import model.Dijkstra;
 import model.Graph;
 import model.Node;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Menu {
 
@@ -53,7 +51,9 @@ public class Menu {
                 break;
 
             case 2:
+//                System.out.println("\nBefore dijkstra: " + originalGraph);
                 dijkstraData();
+//                System.out.println("\nAfter dijkstra: " + originalGraph);
                 mainMenu();
                 break;
         }
@@ -65,16 +65,27 @@ public class Menu {
         int n = sc.nextInt();
         sc.nextLine();
 
-        List<Node<String>> nodeList = new ArrayList<>();
+        ArrayList<Node<String>> nodeList = new ArrayList<>();
 
-        for (int i = 0; i < n; i++) {
+//        for (int i = 0; i < n; i++) {
+//
+//            System.out.println("\n-Node " + i);
+//            System.out.print("Value: ");
+//            String value = sc.nextLine();
+//
+//            Node<String> node = new Node<>(value);
+//            nodeList.add(node);
+//        }
 
-            System.out.println("\n-Node " + i);
-            System.out.print("Value: ");
-            String value = sc.nextLine();
+        System.out.print("Nodes: ");
+        String nodesString = sc.nextLine();
 
-            Node<String> node = new Node<>(value);
-            nodeList.add(node);
+        String[] nodeValues = nodesString.split(";");
+
+        for (String s : nodeValues) {
+
+            Node<String> newNode = new Node<>(s);
+            nodeList.add(newNode);
         }
 
         for (Node<String> node : nodeList) {
@@ -83,11 +94,6 @@ public class Menu {
             String line = sc.nextLine();
 
             String[] array = line.split(" ");
-
-//            for (int i = 0; i < array.length; i++) {
-//
-//                System.out.println(array[i]);
-//            }
 
             for (String s : array) {
 
@@ -129,14 +135,19 @@ public class Menu {
         System.out.print("\nSource Node: ");
         String value = sc.nextLine();
 
-        Node<String> sourceNode = findNode(originalGraph.getNodes(), value);
+        Graph<String> auxGraph = new Graph<>(originalGraph.getN());
+
+        Node<String> sourceNode = findNode(auxGraph.getNodes(), value);
         Dijkstra<String> dijkstra = new Dijkstra<>();
 
         if (sourceNode != null) {
 
-            originalGraph = dijkstra.calculateShortestPathFromSource(originalGraph, sourceNode);
+            auxGraph = dijkstra.calculateShortestPathFromSource(auxGraph, sourceNode);
 
-            allShortestPaths(sourceNode, dijkstra);
+        System.out.println("\nORIGINAL " + originalGraph);
+        System.out.println("\nAUX " + auxGraph);
+
+            allShortestPaths(auxGraph, sourceNode, dijkstra);
 
         } else {
 
@@ -144,17 +155,17 @@ public class Menu {
         }
     }
 
-    private void allShortestPaths(Node<String> sourceNode, Dijkstra<String> dijkstra) {
+    private void allShortestPaths(Graph<String> auxGraph, Node<String> sourceNode, Dijkstra<String> dijkstra) {
 
         System.out.println("\nShortest paths: ");
 
-        for (Node<String> node : originalGraph.getNodes()) {
+        for (Node<String> node : auxGraph.getNodes()) {
 
-            System.out.println("-" + dijkstra.showPath(originalGraph, sourceNode, node));
+            System.out.println("-" + dijkstra.showPath(auxGraph, sourceNode, node));
         }
     }
 
-    private Node<String> findNode(List<Node<String>> nodes, String parameter) {
+    private Node<String> findNode(ArrayList<Node<String>> nodes, String parameter) {
 
         for (Node<String> node : nodes) {
 

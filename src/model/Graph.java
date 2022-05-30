@@ -5,7 +5,7 @@ import java.util.*;
 public class Graph<T> {
 
     private int n;
-    private List<Node<T>> nodes;
+    private ArrayList<Node<T>> nodes;
 
     public Graph(int n) {
         this.n = n;
@@ -31,11 +31,11 @@ public class Graph<T> {
         this.n = n;
     }
 
-    public List<Node<T>> getNodes() {
+    public ArrayList<Node<T>> getNodes() {
         return nodes;
     }
 
-    public void setNodes(List<Node<T>> nodes) {
+    public void setNodes(ArrayList<Node<T>> nodes) {
         this.nodes = nodes;
     }
 

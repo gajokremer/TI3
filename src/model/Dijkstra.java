@@ -10,8 +10,8 @@ public class Dijkstra<T> {
 
 //        Set<GenericNode<T>> settledNodes = new HashSet<>();
 //        Set<Graph.Node> unsettledNodes = new HashSet<>();
-        List<Node<T>> settledNodes = new ArrayList<>();
-        List<Node<T>> unsettledNodes = new ArrayList<>();
+        ArrayList<Node<T>> settledNodes = new ArrayList<>();
+        ArrayList<Node<T>> unsettledNodes = new ArrayList<>();
 
         unsettledNodes.add(source);
 
@@ -56,7 +56,7 @@ public class Dijkstra<T> {
     }
 
 //    private Graph.Node getLowestDistanceNode(Set<Graph.Node> unsettledNodes) {
-    private Node<T> getLowestDistanceNode(List<Node<T>> unsettledNodes) {
+    private Node<T> getLowestDistanceNode(ArrayList<Node<T>> unsettledNodes) {
 
         Node<T> lowestDistanceNode = null;
 //        int lowestDistance  = Integer.MAX_VALUE;
