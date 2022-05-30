@@ -11,7 +11,7 @@ public class Menu {
 
     private final Scanner sc;
 //    private List<Node<String>> nodeList;
-    private Graph<String> originalGraph;
+    private Graph<String> graph;
 
     public Menu() {
         sc = new Scanner(System.in);
@@ -20,10 +20,12 @@ public class Menu {
 
     public void mainMenu() {
 
-        System.out.println("\n\n========MAIN MENU========\n");
+        System.out.println("\n\n========MAIN MENU========");
+
+        System.out.println("\n-Graph?: " + (graph != null));
 
         System.out.println(
-                "Select an option:\n" +
+                "\nSelect an option:\n" +
                         "(1) to create a Graph\n" +
                         "(2) to apply Dijkstra's algorithm\n" +
 
@@ -40,6 +42,11 @@ public class Menu {
                 mainMenu();
                 break;
 
+            case -1:
+                quickGraph();
+                mainMenu();
+                break;
+
             case 0:
                 System.out.println("\n-----OPERATION ENDED-----\n");
                 mainMenu();
@@ -51,9 +58,8 @@ public class Menu {
                 break;
 
             case 2:
-//                System.out.println("\nBefore dijkstra: " + originalGraph);
                 dijkstraData();
-//                System.out.println("\nAfter dijkstra: " + originalGraph);
+                sc.nextLine();
                 mainMenu();
                 break;
         }
@@ -120,34 +126,31 @@ public class Menu {
             }
         }
 
+        graph = new Graph<>(n);
+        graph.getNodes().addAll(nodeList);
+
 //        System.out.println();
-//        System.out.println(nodes);
-
-        originalGraph = new Graph<>(n);
-        originalGraph.getNodes().addAll(nodeList);
-
-        System.out.println();
-        System.out.println(originalGraph);
+//        System.out.println(graph);
     }
 
     private void dijkstraData() {
 
+        graph.resetNodes();
+
         System.out.print("\nSource Node: ");
         String value = sc.nextLine();
 
-        Graph<String> auxGraph = new Graph<>(originalGraph.getN());
-
-        Node<String> sourceNode = findNode(auxGraph.getNodes(), value);
+        Node<String> sourceNode = findNode(graph.getNodes(), value);
         Dijkstra<String> dijkstra = new Dijkstra<>();
 
         if (sourceNode != null) {
 
-            auxGraph = dijkstra.calculateShortestPathFromSource(auxGraph, sourceNode);
+            graph = dijkstra.calculateShortestPathFromSource(graph, sourceNode);
 
-        System.out.println("\nORIGINAL " + originalGraph);
-        System.out.println("\nAUX " + auxGraph);
+//        System.out.println("\nORIGINAL " + originalGraph);
+//        System.out.println("\nAUX " + auxGraph);
 
-            allShortestPaths(auxGraph, sourceNode, dijkstra);
+            allShortestPaths(graph, sourceNode, dijkstra);
 
         } else {
 
@@ -161,7 +164,8 @@ public class Menu {
 
         for (Node<String> node : auxGraph.getNodes()) {
 
-            System.out.println("-" + dijkstra.showPath(auxGraph, sourceNode, node));
+//            System.out.println("-" + dijkstra.showPath(auxGraph, sourceNode, node));
+            System.out.println("-" + dijkstra.showPath(sourceNode, node));
         }
     }
 
@@ -178,32 +182,16 @@ public class Menu {
         return null;
     }
 
+    public void quickGraph() {
 
-    private void originalGraph() {
+        graph = new Graph<>(6);
 
-        OriginalGraph<Integer> g = new OriginalGraph<>();
-
-//        g.addEdge(0, 1, true);
-//        g.addEdge(0, 4, true);
-//        g.addEdge(1, 2, true);
-//        g.addEdge(1, 3, true);
-//        g.addEdge(1, 4, true);
-//        g.addEdge(2, 3, true);
-//        g.addEdge(3, 4, true);
-
-        System.out.println(g);
-    }
-
-    public void test() {
-
-        Graph<Character> characterGraph = new Graph<Character>(6);
-
-        Node<Character> nodeA = new Node<>('A');
-        Node<Character> nodeB = new Node<>('B');
-        Node<Character> nodeC = new Node<>('C');
-        Node<Character> nodeD = new Node<>('D');
-        Node<Character> nodeE = new Node<>('E');
-        Node<Character> nodeF = new Node<>('F');
+        Node<String > nodeA = new Node<>("A");
+        Node<String> nodeB = new Node<>("B");
+        Node<String> nodeC = new Node<>("C");
+        Node<String> nodeD = new Node<>("D");
+        Node<String> nodeE = new Node<>("E");
+        Node<String> nodeF = new Node<>("F");
 
         nodeA.addDestination(nodeB, 6);
         nodeA.addDestination(nodeC, 90);
@@ -223,22 +211,26 @@ public class Menu {
 
         nodeF.addDestination(nodeE, 15);
 
-        characterGraph.addNode(nodeA);
-        characterGraph.addNode(nodeB);
-        characterGraph.addNode(nodeC);
-        characterGraph.addNode(nodeD);
-        characterGraph.addNode(nodeE);
-        characterGraph.addNode(nodeF);
+        graph.addNode(nodeA);
+        graph.addNode(nodeB);
+        graph.addNode(nodeC);
+        graph.addNode(nodeD);
+        graph.addNode(nodeE);
+        graph.addNode(nodeF);
+    }
 
-        Dijkstra<Character> dijkstra = new Dijkstra<>();
+    private void originalGraph() {
 
-        characterGraph = dijkstra.calculateShortestPathFromSource(characterGraph, nodeA);
+        OriginalGraph<Integer> g = new OriginalGraph<>();
 
-        for (Node<Character> node : characterGraph.getNodes()) {
+//        g.addEdge(0, 1, true);
+//        g.addEdge(0, 4, true);
+//        g.addEdge(1, 2, true);
+//        g.addEdge(1, 3, true);
+//        g.addEdge(1, 4, true);
+//        g.addEdge(2, 3, true);
+//        g.addEdge(3, 4, true);
 
-            System.out.println(dijkstra.showPath(characterGraph, nodeA, node));
-        }
-
-        System.out.println(characterGraph.getNodes().get(3));
+        System.out.println(g);
     }
 }

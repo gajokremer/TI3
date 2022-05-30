@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class Node<T> {
+public class Node<T> implements Cloneable {
 
     private T value;
 //    private Integer distance = Integer.MAX_VALUE;
@@ -61,5 +61,10 @@ public class Node<T> {
 //                ", shortestPath=" + shortestPath +
 //                ", adjacentNodes=" + adjacentNodes +
                 '}';
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

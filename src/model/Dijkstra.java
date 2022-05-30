@@ -76,8 +76,8 @@ public class Dijkstra<T> {
         return lowestDistanceNode;
     }
 
-    public String showPath(Graph<T> graph, Node<T> source,
-                            Node<T> destination) {
+//    public String showPath(Graph<T> graph, Node<T> source, Node<T> destination) {
+    public String showPath(Node<T> source, Node<T> destination) {
 
         return "From " + source.getValue() + " to " +
                         destination.getValue() + ": " + destination.getDistance();

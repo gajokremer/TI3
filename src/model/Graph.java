@@ -39,6 +39,14 @@ public class Graph<T> {
         this.nodes = nodes;
     }
 
+    public void resetNodes() {
+
+        for (Node<T> node : nodes) {
+
+            node.setDistance(Double.POSITIVE_INFINITY);
+        }
+    }
+
     @Override
     public String toString() {
         return "Graph{" +
