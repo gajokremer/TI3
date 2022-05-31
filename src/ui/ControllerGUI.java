@@ -1,25 +1,26 @@
 package ui;
 
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import model.Graph;
+import model.Node;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 public class ControllerGUI {
 
     private Graph<String> graph;
+    private int size;
+    private boolean[] assigned;
 
     public ControllerGUI() {
     }
@@ -31,10 +32,16 @@ public class ControllerGUI {
     private TextField tfSystemSize;
 
     @FXML
+    private TextField tfSystemSize2;
+
+    @FXML
     private TextArea taConnections;
 
     @FXML
     private TextArea taDestinations;
+
+    @FXML
+    private TextField tfDestinationName;
 
     @FXML
     void start(ActionEvent event) throws IOException {
@@ -53,24 +60,24 @@ public class ControllerGUI {
 
         if (!tfSystemSize.getText().isEmpty()) {
 
-            int size = Integer.parseInt(tfSystemSize.getText());
+            size = Integer.parseInt(tfSystemSize.getText());
 
             if (size <= 50) {
 
-//                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("SystemCreator.fxml"));
-//                fxmlLoader.setController(this);
-//                Parent menu = fxmlLoader.load();
-//                mainPane.getChildren().setAll(menu);
+                graph = new Graph<>(size);
+
+                tfSystemSize.setText("");
 
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("SystemCreator.fxml"));
                 fxmlLoader.setController(this);
                 DialogPane dialoguePane = fxmlLoader.load();
 
+                tfSystemSize2.setText(String.valueOf(size));
+                taDestinations.setEditable(true);
+
                 Dialog<ButtonType> dialog = new Dialog<>();
                 dialog.setDialogPane(dialoguePane);
                 dialog.showAndWait();
-
-                tfSystemSize.setText("");
 
             } else {
 
@@ -82,6 +89,107 @@ public class ControllerGUI {
 
             showWarningDialogue("System creation error", "A size must be provided.");
         }
+    }
+
+    @FXML
+    void addDestinations(ActionEvent event) throws InterruptedException {
+
+        if (!taDestinations.getText().isEmpty()) {
+
+            String[] destinations = taDestinations.getText().split("\n");
+
+            if (destinations.length == size) {
+
+                List<Node<String>> nodeList = new ArrayList<>();
+
+                for (String s : destinations) {
+
+                    Node<String> newNode = new Node<>(s);
+                    nodeList.add(newNode);
+                }
+
+                graph.getNodes().addAll(nodeList);
+
+                assigned = new boolean[size];
+                Arrays.fill(assigned, false);
+
+                taDestinations.setEditable(false);
+
+                showSuccessDialogue("Addition successful", "All destinations have been added");
+
+            } else {
+
+                showWarningDialogue("Destinations addition error",
+                        "There must be " + size + " destinations.");
+                taDestinations.setText("");
+            }
+
+        } else {
+
+                showWarningDialogue("Destinations addition error","Destinations must be provided.");
+        }
+    }
+
+    @FXML
+    void assign(ActionEvent event) {
+
+        if (!tfDestinationName.getText().isEmpty()) {
+
+            String originData = tfDestinationName.getText();
+            Node<String> origin = graph.getNode(graph.getNodes(), originData);
+
+            if (origin != null) {
+
+                String[] connections = taConnections.getText().split("\n");
+
+                for (String s : connections) {
+
+                    String[] line = s.split(";");
+
+                    String destinationData = line[0];
+                    double distance;
+
+                    if (line[1].equals("-")) {
+
+                        distance = Double.POSITIVE_INFINITY;
+
+                    } else {
+
+                        distance = Double.parseDouble(line[1]);
+                    }
+
+                    Node<String> destinationNode = graph.getNode(graph.getNodes(), destinationData);
+
+                    if (destinationNode != null) {
+
+                        origin.addDestination(destinationNode, distance);
+                        tfDestinationName.setText("");
+                        taConnections.setText("");
+
+                    } else {
+
+                        showWarningDialogue("Adjacency assignation error",
+                                "Destination " + destinationData + "doesn't exist.");
+                    }
+                }
+
+                showSuccessDialogue("Adjacency assignation successful",
+                        "Connections for '" + originData + "' have been assigned.");
+
+                System.out.println(origin.getAdjacentNodes());
+
+            } else {
+
+                showWarningDialogue("Adjacency assignation error",
+                        "Destination " + originData + "doesn't exist.");
+            }
+        }
+    }
+
+    @FXML
+    void construct(ActionEvent event) {
+
+
     }
 
     @FXML
