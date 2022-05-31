@@ -133,63 +133,88 @@ public class ControllerGUI {
     @FXML
     void assign(ActionEvent event) {
 
-        if (!tfDestinationName.getText().isEmpty()) {
+        if (!graph.getNodes().isEmpty()) {
 
-            String originData = tfDestinationName.getText();
-            Node<String> origin = graph.getNode(graph.getNodes(), originData);
+            if (!tfDestinationName.getText().isEmpty()) {
 
-            if (origin != null) {
+                String originData = tfDestinationName.getText();
+                Node<String> origin = graph.getNode(graph.getNodes(), originData);
 
-                String[] connections = taConnections.getText().split("\n");
+                int originIndex = graph.getNodes().indexOf(origin);
 
-                for (String s : connections) {
+                if (!assigned[originIndex]) {
 
-                    String[] line = s.split(";");
+                    if (origin != null) {
 
-                    String destinationData = line[0];
-                    double distance;
+                        if (!taConnections.getText().isEmpty()) {
 
-                    if (line[1].equals("-")) {
+                            String[] connections = taConnections.getText().split("\n");
 
-                        distance = Double.POSITIVE_INFINITY;
+                            for (String s : connections) {
 
-                    } else {
+                                String[] line = s.split(";");
 
-                        distance = Double.parseDouble(line[1]);
-                    }
+                                String destinationData = line[0];
+                                double distance;
 
-                    Node<String> destinationNode = graph.getNode(graph.getNodes(), destinationData);
+                                if (line[1].equals("-")) {
 
-                    if (destinationNode != null) {
+                                    distance = Double.POSITIVE_INFINITY;
 
-                        origin.addDestination(destinationNode, distance);
-                        tfDestinationName.setText("");
-                        taConnections.setText("");
+                                } else {
+
+                                    distance = Double.parseDouble(line[1]);
+                                }
+
+                                Node<String> destinationNode = graph.getNode(graph.getNodes(), destinationData);
+
+                                if (destinationNode != null) {
+
+                                    origin.addDestination(destinationNode, distance);
+                                    assigned[originIndex] = true;
+                                    tfDestinationName.setText("");
+                                    taConnections.setText("");
+
+                                } else {
+
+                                    showWarningDialogue("Adjacency assignation error",
+                                            "Destination " + destinationData + "doesn't exist.");
+                                }
+                            }
+                        }
+
+                        if (taConnections.getText().isEmpty()) {
+
+                            assigned[originIndex] = true;
+                            tfDestinationName.setText("");
+                        }
+
+                        if (assigned[originIndex]) {
+
+                            showSuccessDialogue("Adjacency assignation successful",
+                                    "Connections for '" + originData + "' have been assigned.");
+
+                            System.out.println(origin.getAdjacentNodes());
+                        }
 
                     } else {
 
                         showWarningDialogue("Adjacency assignation error",
-                                "Destination " + destinationData + "doesn't exist.");
+                                "Destination " + originData + "doesn't exist.");
                     }
+
+                } else {
+
+                    showWarningDialogue("Adjacency assignation error",
+                            "Connections have already been assigned for " + "'" + originData + "'");
                 }
-
-                showSuccessDialogue("Adjacency assignation successful",
-                        "Connections for '" + originData + "' have been assigned.");
-
-                System.out.println(origin.getAdjacentNodes());
-
-            } else {
-
-                showWarningDialogue("Adjacency assignation error",
-                        "Destination " + originData + "doesn't exist.");
             }
+
+        } else {
+
+            showWarningDialogue("Adjacency assignation error",
+                    "No destinations have been added");
         }
-    }
-
-    @FXML
-    void construct(ActionEvent event) {
-
-
     }
 
     @FXML
