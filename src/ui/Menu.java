@@ -48,7 +48,6 @@ public class Menu {
 
             case 0:
                 System.out.println("\n-----OPERATION ENDED-----\n");
-                mainMenu();
                 break;
 
             case 1:
@@ -90,6 +89,7 @@ public class Menu {
 //            nodeList.add(node);
 //        }
 
+        System.out.println("(Format: Node1;Node2;Node3...)");
         System.out.print("Nodes: ");
         String nodesString = sc.nextLine();
 
@@ -100,6 +100,9 @@ public class Menu {
             Node<String> newNode = new Node<>(s);
             nodeList.add(newNode);
         }
+
+        System.out.println("\n(Adjacency List format: Dest1;Dist1 Dest2;Dist2...)");
+        System.out.println("(If no specific distance, type '-')");
 
         for (Node<String> node : nodeList) {
 
