@@ -4,12 +4,17 @@
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ToolBar prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #1c262f;">
         <items>
-          <Button mnemonicParsing="false" style="-fx-background-color: #2f3263;" text="Button" textFill="WHITE" />
+          <Button mnemonicParsing="false" onAction="#close" style="-fx-background-color: #2f3263;" text="Close" textFill="WHITE">
+               <font>
+                  <Font name="Times New Roman" size="13.0" />
+               </font>
+            </Button>
         </items>
       </ToolBar>
       <Pane fx:id="mainPane" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">

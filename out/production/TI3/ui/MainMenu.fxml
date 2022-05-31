@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
@@ -7,11 +10,25 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #1c262f;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Text fill="#a3a4ad" layoutX="299.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" text="tractjet">
+      <Text fill="#a3a4ad" layoutX="299.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" text="tractjet">
          <font>
             <Font name="Copperplate" size="48.0" />
          </font>
       </Text>
-      <ImageView fx:id="ivLogo" fitHeight="250.0" fitWidth="361.0" layoutX="220.0" layoutY="84.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fitHeight="250.0" fitWidth="361.0" layoutX="220.0" layoutY="155.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="https://www.seekpng.com/png/full/105-1051251_cartoon-airplane-png.pnghttps://www.seekpng.com/png/full/105-1051251_cartoon-airplane-png.png" />
+         </image>
+      </ImageView>
+      <Button layoutX="276.0" layoutY="361.0" mnemonicParsing="false" onAction="#createFlightSystem" style="-fx-background-color: #2f3263;" text="Create Flight System" textFill="WHITE">
+         <font>
+            <Font name="Times New Roman Bold" size="24.0" />
+         </font>
+        </Button>
+      <TextField fx:id="tfSystemSize" alignment="CENTER" layoutX="313.0" layoutY="415.0" promptText="System Size">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </TextField>
    </children>
 </Pane>
