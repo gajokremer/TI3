@@ -1,6 +1,6 @@
 package ui;
 
-import extras.OriginalGraph;
+import model.BreadthFirstSearch;
 import model.Dijkstra;
 import model.Graph;
 import model.Node;
@@ -15,7 +15,7 @@ public class Menu {
 
     public Menu() {
         sc = new Scanner(System.in);
-//        nodeList = new ArrayList<>();
+//        nodeList = new List<>();
     }
 
     public void mainMenu() {
@@ -27,7 +27,8 @@ public class Menu {
         System.out.println(
                 "\nSelect an option:\n" +
                         "(1) to create a Graph\n" +
-                        "(2) to apply Dijkstra's algorithm\n" +
+                        "(2) to tarverse by Breadth First Search\n" +
+                        "(3) to apply Dijkstra's algorithm\n" +
 
                         "\n(0) to exit");
 
@@ -58,6 +59,12 @@ public class Menu {
                 break;
 
             case 2:
+                bfsData();
+                sc.nextLine();
+                mainMenu();
+                break;
+
+            case 3:
                 dijkstraData();
                 sc.nextLine();
                 mainMenu();
@@ -71,7 +78,7 @@ public class Menu {
         int n = sc.nextInt();
         sc.nextLine();
 
-        ArrayList<Node<String>> nodeList = new ArrayList<>();
+        List<Node<String>> nodeList = new ArrayList<>();
 
 //        for (int i = 0; i < n; i++) {
 //
@@ -96,7 +103,7 @@ public class Menu {
 
         for (Node<String> node : nodeList) {
 
-            System.out.print("\nAdjacency list for " + node.getValue() + ": ");
+            System.out.print("\nAdjacency list for " + node.getData() + ": ");
             String line = sc.nextLine();
 
             String[] array = line.split(" ");
@@ -107,10 +114,10 @@ public class Menu {
 
                 if (!s.isEmpty()) {
 
-                    String value = line1[0];
+                    String data = line1[0];
                     double distance = Double.parseDouble(line1[1]);
 
-                    Node<String> destinationNode = findNode(nodeList, value);
+                    Node<String> destinationNode = graph.getNode(data);
 
 //                System.out.println("\naNode: " + aNode);
 
@@ -120,7 +127,7 @@ public class Menu {
 
                     } else {
 
-                        System.out.println("--Node " + value + " doesn't exist");
+                        System.out.println("--Node " + data + " doesn't exist");
                     }
                 }
             }
@@ -128,9 +135,26 @@ public class Menu {
 
         graph = new Graph<>(n);
         graph.getNodes().addAll(nodeList);
+    }
 
-//        System.out.println();
-//        System.out.println(graph);
+    private void bfsData() {
+
+        graph.resetNodes();
+
+        System.out.print("\nSource Node: ");
+        String data = sc.nextLine();
+
+        Node<String> sourceNode = graph.getNode(data);
+
+        BreadthFirstSearch<String> bfs = new BreadthFirstSearch<String>(sourceNode);
+        bfs.traverse();
+
+        System.out.println("\nNode List: ");
+
+        for (Node<String> node : bfs.getVisitedNodes()) {
+
+            System.out.println("-" + node);
+        }
     }
 
     private void dijkstraData() {
@@ -138,23 +162,20 @@ public class Menu {
         graph.resetNodes();
 
         System.out.print("\nSource Node: ");
-        String value = sc.nextLine();
+        String data = sc.nextLine();
 
-        Node<String> sourceNode = findNode(graph.getNodes(), value);
+        Node<String> sourceNode = graph.getNode(data);
         Dijkstra<String> dijkstra = new Dijkstra<>();
 
         if (sourceNode != null) {
 
             graph = dijkstra.calculateShortestPathFromSource(graph, sourceNode);
 
-//        System.out.println("\nORIGINAL " + originalGraph);
-//        System.out.println("\nAUX " + auxGraph);
-
             allShortestPaths(graph, sourceNode, dijkstra);
 
         } else {
 
-            System.out.println("--Node " + value + " doesn't exist");
+            System.out.println("--Node " + data + " doesn't exist");
         }
     }
 
@@ -167,19 +188,6 @@ public class Menu {
 //            System.out.println("-" + dijkstra.showPath(auxGraph, sourceNode, node));
             System.out.println("-" + dijkstra.showPath(sourceNode, node));
         }
-    }
-
-    private Node<String> findNode(ArrayList<Node<String>> nodes, String parameter) {
-
-        for (Node<String> node : nodes) {
-
-            if (node.getValue().equals(parameter)) {
-
-                return node;
-            }
-        }
-
-        return null;
     }
 
     public void quickGraph() {
@@ -217,20 +225,5 @@ public class Menu {
         graph.addNode(nodeD);
         graph.addNode(nodeE);
         graph.addNode(nodeF);
-    }
-
-    private void originalGraph() {
-
-        OriginalGraph<Integer> g = new OriginalGraph<>();
-
-//        g.addEdge(0, 1, true);
-//        g.addEdge(0, 4, true);
-//        g.addEdge(1, 2, true);
-//        g.addEdge(1, 3, true);
-//        g.addEdge(1, 4, true);
-//        g.addEdge(2, 3, true);
-//        g.addEdge(3, 4, true);
-
-        System.out.println(g);
     }
 }

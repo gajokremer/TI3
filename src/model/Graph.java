@@ -5,7 +5,7 @@ import java.util.*;
 public class Graph<T> {
 
     private int n;
-    private ArrayList<Node<T>> nodes;
+    private List<Node<T>> nodes;
 
     public Graph(int n) {
         this.n = n;
@@ -31,12 +31,25 @@ public class Graph<T> {
         this.n = n;
     }
 
-    public ArrayList<Node<T>> getNodes() {
+    public List<Node<T>> getNodes() {
         return nodes;
     }
 
-    public void setNodes(ArrayList<Node<T>> nodes) {
+    public void setNodes(List<Node<T>> nodes) {
         this.nodes = nodes;
+    }
+
+    public Node<T> getNode(T data) {
+
+        for (Node<T> node : nodes) {
+
+            if (node.getData().equals(data)) {
+
+                return node;
+            }
+        }
+
+        return null;
     }
 
     public void resetNodes() {
@@ -49,7 +62,7 @@ public class Graph<T> {
 
     @Override
     public String toString() {
-        return "Graph{" +
+        return "DijkstraGraph{" +
                 "n=" + n +
                 ", nodes=" + nodes +
                 '}';

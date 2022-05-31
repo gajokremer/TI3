@@ -5,19 +5,18 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class Node<T> implements Cloneable {
+public class Node<T> {
 
-    private T value;
-//    private Integer distance = Integer.MAX_VALUE;
+    private final T data;
     private Double distance = Double.POSITIVE_INFINITY;
-    private List<Node<T>> shortestPath = new LinkedList<>();
+    private boolean visited;
+    private List<Node<T>> shortestPath;
     private final Map<Node<T>, Double> adjacentNodes = new HashMap<>();
 
-    public Node() {
-    }
-
     public Node(T value) {
-        this.value = value;
+        this.data = value;
+        visited = false;
+        shortestPath = new LinkedList<>();
     }
 
     public void addDestination(Node<T> destination, double distance) {
@@ -25,12 +24,8 @@ public class Node<T> implements Cloneable {
         adjacentNodes.put(destination, distance);
     }
 
-    public T getValue() {
-        return value;
-    }
-
-    public void setValue(T value) {
-        this.value = value;
+    public T getData() {
+        return data;
     }
 
     public Double getDistance() {
@@ -39,6 +34,14 @@ public class Node<T> implements Cloneable {
 
     public void setDistance(Double distance) {
         this.distance = distance;
+    }
+
+    public boolean isVisited() {
+        return visited;
+    }
+
+    public void setVisited(boolean visited) {
+        this.visited = visited;
     }
 
     public List<Node<T>> getShortestPath() {
@@ -55,16 +58,9 @@ public class Node<T> implements Cloneable {
 
     @Override
     public String toString() {
-        return "Node{" +
-                "value=" + value +
-                ", distance=" + distance +
-//                ", shortestPath=" + shortestPath +
-//                ", adjacentNodes=" + adjacentNodes +
+        return "{data=" + data +
+//                ", distance=" + distance +
+                ", visited=" + visited +
                 '}';
-    }
-
-    @Override
-    protected Object clone() throws CloneNotSupportedException {
-        return super.clone();
     }
 }
