@@ -10,12 +10,10 @@ import java.util.*;
 public class Menu {
 
     private final Scanner sc;
-//    private List<Node<String>> nodeList;
     private Graph<String> graph;
 
     public Menu() {
         sc = new Scanner(System.in);
-//        nodeList = new List<>();
     }
 
     public void mainMenu() {
@@ -27,7 +25,7 @@ public class Menu {
         System.out.println(
                 "\nSelect an option:\n" +
                         "(1) to create a Graph\n" +
-                        "(2) to tarverse by Breadth First Search\n" +
+                        "(2) to traverse by Breadth First Search\n" +
                         "(3) to apply Dijkstra's algorithm\n" +
 
                         "\n(0) to exit");
@@ -78,6 +76,8 @@ public class Menu {
         int n = sc.nextInt();
         sc.nextLine();
 
+        graph = new Graph<>(n);
+
         List<Node<String>> nodeList = new ArrayList<>();
 
 //        for (int i = 0; i < n; i++) {
@@ -110,14 +110,24 @@ public class Menu {
 
             for (String s : array) {
 
-                String[] line1 = s.split(";");
+                String[] otherLine = s.split(";");
 
                 if (!s.isEmpty()) {
 
-                    String data = line1[0];
-                    double distance = Double.parseDouble(line1[1]);
+                    String data = otherLine[0];
+//                    double distance = Double.parseDouble(otherLine[1]);
+                    double distance;
 
-                    Node<String> destinationNode = graph.getNode(data);
+                    if (otherLine[1].equals("-")) {
+
+                        distance = Double.POSITIVE_INFINITY;
+
+                    } else {
+
+                        distance = Double.parseDouble(otherLine[1]);
+                    }
+
+                    Node<String> destinationNode = graph.getNode(nodeList, data);
 
 //                System.out.println("\naNode: " + aNode);
 
@@ -133,7 +143,6 @@ public class Menu {
             }
         }
 
-        graph = new Graph<>(n);
         graph.getNodes().addAll(nodeList);
     }
 
@@ -144,16 +153,23 @@ public class Menu {
         System.out.print("\nSource Node: ");
         String data = sc.nextLine();
 
-        Node<String> sourceNode = graph.getNode(data);
+        Node<String> sourceNode = graph.getNode(graph.getNodes(), data);
 
-        BreadthFirstSearch<String> bfs = new BreadthFirstSearch<String>(sourceNode);
-        bfs.traverse();
+        if (sourceNode != null){
 
-        System.out.println("\nNode List: ");
+            BreadthFirstSearch<String> bfs = new BreadthFirstSearch<>(sourceNode);
+            bfs.traverse();
 
-        for (Node<String> node : bfs.getVisitedNodes()) {
+            System.out.println("\nNode List: ");
 
-            System.out.println("-" + node);
+            for (Node<String> node : bfs.getVisitedNodes()) {
+
+                System.out.println("-" + node);
+            }
+
+        } else {
+
+            System.out.println("--Node " + data + " doesn't exist");
         }
     }
 
@@ -164,7 +180,7 @@ public class Menu {
         System.out.print("\nSource Node: ");
         String data = sc.nextLine();
 
-        Node<String> sourceNode = graph.getNode(data);
+        Node<String> sourceNode = graph.getNode(graph.getNodes(), data);
         Dijkstra<String> dijkstra = new Dijkstra<>();
 
         if (sourceNode != null) {

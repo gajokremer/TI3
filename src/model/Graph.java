@@ -39,9 +39,9 @@ public class Graph<T> {
         this.nodes = nodes;
     }
 
-    public Node<T> getNode(T data) {
+    public Node<T> getNode(List<Node<T>> nodeList, T data) {
 
-        for (Node<T> node : nodes) {
+        for (Node<T> node : nodeList) {
 
             if (node.getData().equals(data)) {
 
