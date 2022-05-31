@@ -198,11 +198,11 @@ public class Menu {
         }
     }
 
-    private void allShortestPaths(Graph<String> auxGraph, Node<String> sourceNode, Dijkstra<String> dijkstra) {
+    private void allShortestPaths(Graph<String> aGraph, Node<String> sourceNode, Dijkstra<String> dijkstra) {
 
         System.out.println("\nShortest paths: ");
 
-        for (Node<String> node : auxGraph.getNodes()) {
+        for (Node<String> node : aGraph.getNodes()) {
 
 //            System.out.println("-" + dijkstra.showPath(auxGraph, sourceNode, node));
             System.out.println("-" + dijkstra.showPath(sourceNode, node));

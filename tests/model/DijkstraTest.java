@@ -36,7 +36,7 @@ class DijkstraTest {
 
     public Graph<String> setUpScenario2() {
 
-        Graph<String> graph = new Graph<String>(5);
+        Graph<String> graph = new Graph<>(5);
 
         Node<String> nodeA = new Node<>("A");
         Node<String> nodeB = new Node<>("B");

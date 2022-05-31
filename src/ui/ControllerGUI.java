@@ -7,13 +7,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
+import model.BreadthFirstSearch;
+import model.Dijkstra;
 import model.Graph;
 import model.Node;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
 public class ControllerGUI {
@@ -27,6 +28,9 @@ public class ControllerGUI {
 
     @FXML
     private Pane mainPane;
+
+    @FXML
+    private Label lbGraph;
 
     @FXML
     private TextField tfSystemSize;
@@ -44,6 +48,13 @@ public class ControllerGUI {
     private TextField tfDestinationName;
 
     @FXML
+    private TextArea taResult;
+
+    @FXML
+    private TextField tfStartingPoint;
+
+
+    @FXML
     void start(ActionEvent event) throws IOException {
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("MainMenu.fxml"));
@@ -51,8 +62,43 @@ public class ControllerGUI {
         Parent menu = fxmlLoader.load();
         mainPane.getChildren().setAll(menu);
 
-//        Image logo = new Image("https://www.seekpng.com/png/full/105-1051251_cartoon-airplane-png.png");
-//        ivLogo.setImage(logo);
+
+//        graph = new Graph<>(6);
+//
+//        Node<String > nodeA = new Node<>("A");
+//        Node<String> nodeB = new Node<>("B");
+//        Node<String> nodeC = new Node<>("C");
+//        Node<String> nodeD = new Node<>("D");
+//        Node<String> nodeE = new Node<>("E");
+//        Node<String> nodeF = new Node<>("F");
+//
+//        nodeA.addDestination(nodeB, 6);
+//        nodeA.addDestination(nodeC, 90);
+//        nodeA.addDestination(nodeF, 70);
+//
+//        nodeB.addDestination(nodeD, 41);
+//
+//        nodeC.addDestination(nodeB, 12);
+//        nodeC.addDestination(nodeF, 10);
+//
+//        nodeD.addDestination(nodeC, 12);
+//
+//        nodeE.addDestination(nodeA, 2);
+//        nodeE.addDestination(nodeB, 22);
+//        nodeE.addDestination(nodeC, 60);
+//        nodeE.addDestination(nodeD, 50);
+//
+//        nodeF.addDestination(nodeE, 15);
+//
+//        graph.addNode(nodeA);
+//        graph.addNode(nodeB);
+//        graph.addNode(nodeC);
+//        graph.addNode(nodeD);
+//        graph.addNode(nodeE);
+//        graph.addNode(nodeF);
+
+
+        lbGraph.setText(String.valueOf(graph != null));
     }
 
     @FXML
@@ -214,6 +260,100 @@ public class ControllerGUI {
 
             showWarningDialogue("Adjacency assignation error",
                     "No destinations have been added");
+        }
+    }
+
+    @FXML
+    void moreOptions(ActionEvent event) throws IOException {
+
+        if (graph != null) {
+
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("MoreOptions.fxml"));
+            fxmlLoader.setController(this);
+            DialogPane dialoguePane = fxmlLoader.load();
+
+            Dialog<ButtonType> dialog = new Dialog<>();
+            dialog.setDialogPane(dialoguePane);
+            dialog.showAndWait();
+
+        } else {
+
+            showWarningDialogue("Optimization error",
+                    "There must be a system in order to optimize it.");
+        }
+    }
+
+    @FXML
+    void traverse(ActionEvent event) {
+
+        if (!tfStartingPoint.getText().isEmpty()) {
+
+            graph.resetNodes();
+
+            String sourceData = tfStartingPoint.getText();
+            Node<String> source = graph.getNode(graph.getNodes(), sourceData);
+
+            if (source != null) {
+
+                BreadthFirstSearch<String> bfs = new BreadthFirstSearch<String>(source);
+                bfs.traverse();
+
+                StringBuilder paths = new StringBuilder();
+
+                for (int i = 0; i < bfs.getVisitedNodes().size(); i++) {
+
+                    if ((i+1) != 1) paths.append("\n");
+
+                    paths.append(i + 1).append(". ").append(bfs.getVisitedNodes().get(i).getData());
+                }
+
+                taResult.setText(String.valueOf(paths));
+
+            } else {
+
+                showWarningDialogue("Optimization error", "This destination doesn't exist.");
+            }
+
+        } else {
+
+            showWarningDialogue("Optimization error", "A starting point must be provided.");
+        }
+    }
+
+    @FXML
+    void optimize(ActionEvent event) {
+
+        if (!tfStartingPoint.getText().isEmpty()) {
+
+            graph.resetNodes();
+
+            String sourceData = tfStartingPoint.getText();
+            Node<String> source = graph.getNode(graph.getNodes(), sourceData);
+
+            if (source != null) {
+
+                Dijkstra<String> dijkstra = new Dijkstra<>();
+                dijkstra.calculateShortestPathFromSource(graph, source);
+
+                StringBuilder paths = new StringBuilder();
+
+                for (Node<String> node : graph.getNodes()) {
+
+                    if (graph.getNodes().indexOf(node) != 0) paths.append("\n");
+
+                    paths.append(dijkstra.showPath(source, node));
+                }
+
+                taResult.setText(paths.toString());
+
+            } else {
+
+                showWarningDialogue("Optimization error", "This destination doesn't exist.");
+            }
+
+        } else {
+
+            showWarningDialogue("Optimization error", "A starting point must be provided.");
         }
     }
 
