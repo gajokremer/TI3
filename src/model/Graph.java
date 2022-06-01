@@ -57,6 +57,7 @@ public class Graph<T> {
         for (Node<T> node : nodes) {
 
             node.setDistance(Double.POSITIVE_INFINITY);
+            node.setVisited(false);
         }
     }
 

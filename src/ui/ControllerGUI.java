@@ -63,39 +63,39 @@ public class ControllerGUI {
         mainPane.getChildren().setAll(menu);
 
 
-//        graph = new Graph<>(6);
-//
-//        Node<String > nodeA = new Node<>("A");
-//        Node<String> nodeB = new Node<>("B");
-//        Node<String> nodeC = new Node<>("C");
-//        Node<String> nodeD = new Node<>("D");
-//        Node<String> nodeE = new Node<>("E");
-//        Node<String> nodeF = new Node<>("F");
-//
-//        nodeA.addDestination(nodeB, 6);
-//        nodeA.addDestination(nodeC, 90);
-//        nodeA.addDestination(nodeF, 70);
-//
-//        nodeB.addDestination(nodeD, 41);
-//
-//        nodeC.addDestination(nodeB, 12);
-//        nodeC.addDestination(nodeF, 10);
-//
-//        nodeD.addDestination(nodeC, 12);
-//
-//        nodeE.addDestination(nodeA, 2);
-//        nodeE.addDestination(nodeB, 22);
-//        nodeE.addDestination(nodeC, 60);
-//        nodeE.addDestination(nodeD, 50);
-//
-//        nodeF.addDestination(nodeE, 15);
-//
-//        graph.addNode(nodeA);
-//        graph.addNode(nodeB);
-//        graph.addNode(nodeC);
-//        graph.addNode(nodeD);
-//        graph.addNode(nodeE);
-//        graph.addNode(nodeF);
+        graph = new Graph<>(7);
+
+        Node<String> nodeA = new Node<>("A");
+        Node<String> nodeB = new Node<>("B");
+        Node<String> nodeC = new Node<>("C");
+        Node<String> nodeD = new Node<>("D");
+        Node<String> nodeE = new Node<>("E");
+        Node<String> nodeF = new Node<>("F");
+        Node<String> nodeS = new Node<>("S");
+
+        nodeA.addDestination(nodeE, 0);
+        nodeA.addDestination(nodeD, 4);
+
+        nodeB.addDestination(nodeA, 3);
+
+        nodeC.addDestination(nodeD, 2);
+
+        nodeD.addDestination(nodeE, 1);
+        nodeD.addDestination(nodeF, 2);
+
+        nodeE.addDestination(nodeB, 2);
+        nodeE.addDestination(nodeF, 2);
+
+        nodeS.addDestination(nodeC, 3);
+        nodeS.addDestination(nodeB, 1);
+
+        graph.addNode(nodeA);
+        graph.addNode(nodeB);
+        graph.addNode(nodeC);
+        graph.addNode(nodeD);
+        graph.addNode(nodeE);
+        graph.addNode(nodeF);
+        graph.addNode(nodeS);
 
 
         lbGraph.setText(String.valueOf(graph != null));
@@ -160,6 +160,8 @@ public class ControllerGUI {
                 Arrays.fill(assigned, false);
 
                 taDestinations.setEditable(false);
+
+                lbGraph.setText(String.valueOf(graph != null));
 
                 showSuccessDialogue("Addition successful", "All destinations have been added");
 
@@ -293,10 +295,16 @@ public class ControllerGUI {
             String sourceData = tfStartingPoint.getText();
             Node<String> source = graph.getNode(graph.getNodes(), sourceData);
 
+            System.out.println();
+            System.out.println(source != null);
+
             if (source != null) {
 
-                BreadthFirstSearch<String> bfs = new BreadthFirstSearch<String>(source);
+                BreadthFirstSearch<String> bfs = new BreadthFirstSearch<>(source);
                 bfs.traverse();
+
+                System.out.println(source.getAdjacentNodes());
+                System.out.println(bfs.getVisitedNodes());
 
                 StringBuilder paths = new StringBuilder();
 

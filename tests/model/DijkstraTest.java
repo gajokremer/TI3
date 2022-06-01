@@ -102,6 +102,45 @@ class DijkstraTest {
         return graph;
     }
 
+    public Graph<String> setUpScenario4() {
+
+        Graph<String> graph = new Graph<>(7);
+
+        Node<String> nodeA = new Node<>("A");
+        Node<String> nodeB = new Node<>("B");
+        Node<String> nodeC = new Node<>("C");
+        Node<String> nodeD = new Node<>("D");
+        Node<String> nodeE = new Node<>("E");
+        Node<String> nodeF = new Node<>("F");
+        Node<String> nodeS = new Node<>("S");
+
+        nodeA.addDestination(nodeE, 0);
+        nodeA.addDestination(nodeD, 4);
+
+        nodeB.addDestination(nodeA, 3);
+
+        nodeC.addDestination(nodeD, 2);
+
+        nodeD.addDestination(nodeE, 1);
+        nodeD.addDestination(nodeF, 2);
+
+        nodeE.addDestination(nodeB, 2);
+        nodeE.addDestination(nodeF, 2);
+
+        nodeS.addDestination(nodeC, 3);
+        nodeS.addDestination(nodeB, 1);
+
+        graph.addNode(nodeA);
+        graph.addNode(nodeB);
+        graph.addNode(nodeC);
+        graph.addNode(nodeD);
+        graph.addNode(nodeE);
+        graph.addNode(nodeF);
+        graph.addNode(nodeS);
+
+        return graph;
+    }
+
     @Test
     void calculateShortestPathFromSource() {
 
