@@ -84,12 +84,12 @@ class GraphTest {
     @Test
     void getSpecificNode() {
 
-        Graph<Integer> graph = setUpScenario1();
+        Graph<String> graph = setUpScenario2();
 
-        assertEquals(0, graph.getSpecificNode(0).getData());
+        assertEquals("A", graph.getSpecificNode("A").getData());
 
         graph = new Graph<>(2);
-        assertNull(graph.getSpecificNode(0));
+        assertNull(graph.getSpecificNode("F"));
     }
 
     @Test
