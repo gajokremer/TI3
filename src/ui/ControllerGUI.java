@@ -63,39 +63,39 @@ public class ControllerGUI {
         mainPane.getChildren().setAll(menu);
 
 
-        graph = new Graph<>(7);
-
-        Node<String> nodeA = new Node<>("A");
-        Node<String> nodeB = new Node<>("B");
-        Node<String> nodeC = new Node<>("C");
-        Node<String> nodeD = new Node<>("D");
-        Node<String> nodeE = new Node<>("E");
-        Node<String> nodeF = new Node<>("F");
-        Node<String> nodeS = new Node<>("S");
-
-        nodeA.addDestination(nodeE, 0);
-        nodeA.addDestination(nodeD, 4);
-
-        nodeB.addDestination(nodeA, 3);
-
-        nodeC.addDestination(nodeD, 2);
-
-        nodeD.addDestination(nodeE, 1);
-        nodeD.addDestination(nodeF, 2);
-
-        nodeE.addDestination(nodeB, 2);
-        nodeE.addDestination(nodeF, 2);
-
-        nodeS.addDestination(nodeC, 3);
-        nodeS.addDestination(nodeB, 1);
-
-        graph.addNode(nodeA);
-        graph.addNode(nodeB);
-        graph.addNode(nodeC);
-        graph.addNode(nodeD);
-        graph.addNode(nodeE);
-        graph.addNode(nodeF);
-        graph.addNode(nodeS);
+//        graph = new Graph<>(7);
+//
+//        Node<String> nodeA = new Node<>("A");
+//        Node<String> nodeB = new Node<>("B");
+//        Node<String> nodeC = new Node<>("C");
+//        Node<String> nodeD = new Node<>("D");
+//        Node<String> nodeE = new Node<>("E");
+//        Node<String> nodeF = new Node<>("F");
+//        Node<String> nodeS = new Node<>("S");
+//
+//        nodeA.addDestination(nodeE, 0);
+//        nodeA.addDestination(nodeD, 4);
+//
+//        nodeB.addDestination(nodeA, 3);
+//
+//        nodeC.addDestination(nodeD, 2);
+//
+//        nodeD.addDestination(nodeE, 1);
+//        nodeD.addDestination(nodeF, 2);
+//
+//        nodeE.addDestination(nodeB, 2);
+//        nodeE.addDestination(nodeF, 2);
+//
+//        nodeS.addDestination(nodeC, 3);
+//        nodeS.addDestination(nodeB, 1);
+//
+//        graph.addNode(nodeA);
+//        graph.addNode(nodeB);
+//        graph.addNode(nodeC);
+//        graph.addNode(nodeD);
+//        graph.addNode(nodeE);
+//        graph.addNode(nodeF);
+//        graph.addNode(nodeS);
 
 
         lbGraph.setText(String.valueOf(graph != null));
@@ -169,7 +169,7 @@ public class ControllerGUI {
 
                 showWarningDialogue("Destinations addition error",
                         "There must be " + size + " destinations.");
-                taDestinations.setText("");
+//                taDestinations.setText("");
             }
 
         } else {
@@ -186,7 +186,8 @@ public class ControllerGUI {
             if (!tfDestinationName.getText().isEmpty()) {
 
                 String originData = tfDestinationName.getText();
-                Node<String> origin = graph.getNode(graph.getNodes(), originData);
+//                Node<String> origin = graph.getSpecificNode(graph.getNodes(), originData);
+                Node<String> origin = graph.getSpecificNode(originData);
 
                 int originIndex = graph.getNodes().indexOf(origin);
 
@@ -214,19 +215,18 @@ public class ControllerGUI {
                                     distance = Double.parseDouble(line[1]);
                                 }
 
-                                Node<String> destinationNode = graph.getNode(graph.getNodes(), destinationData);
+                                Node<String> destinationNode = graph.getNodeFromList(graph.getNodes(), destinationData);
 
                                 if (destinationNode != null) {
 
                                     origin.addDestination(destinationNode, distance);
                                     assigned[originIndex] = true;
-                                    tfDestinationName.setText("");
-                                    taConnections.setText("");
 
                                 } else {
 
+                                    assigned[originIndex] = false;
                                     showWarningDialogue("Adjacency assignation error",
-                                            "Destination " + destinationData + "doesn't exist.");
+                                            "Destination '" + destinationData + "' doesn't exist.");
                                 }
                             }
                         }
@@ -239,10 +239,10 @@ public class ControllerGUI {
 
                         if (assigned[originIndex]) {
 
+                            tfDestinationName.setText("");
+                            taConnections.setText("");
                             showSuccessDialogue("Adjacency assignation successful",
                                     "Connections for '" + originData + "' have been assigned.");
-
-                            System.out.println(origin.getAdjacentNodes());
                         }
 
                     } else {
@@ -293,18 +293,18 @@ public class ControllerGUI {
             graph.resetNodes();
 
             String sourceData = tfStartingPoint.getText();
-            Node<String> source = graph.getNode(graph.getNodes(), sourceData);
+            Node<String> source = graph.getSpecificNode(sourceData);
 
-            System.out.println();
-            System.out.println(source != null);
+//            System.out.println();
+//            System.out.println(source != null);
 
             if (source != null) {
 
                 BreadthFirstSearch<String> bfs = new BreadthFirstSearch<>(source);
                 bfs.traverse();
 
-                System.out.println(source.getAdjacentNodes());
-                System.out.println(bfs.getVisitedNodes());
+//                System.out.println(source.getAdjacentNodes());
+//                System.out.println(bfs.getVisitedNodes());
 
                 StringBuilder paths = new StringBuilder();
 
@@ -336,7 +336,7 @@ public class ControllerGUI {
             graph.resetNodes();
 
             String sourceData = tfStartingPoint.getText();
-            Node<String> source = graph.getNode(graph.getNodes(), sourceData);
+            Node<String> source = graph.getSpecificNode(sourceData);
 
             if (source != null) {
 
@@ -349,7 +349,7 @@ public class ControllerGUI {
 
                     if (graph.getNodes().indexOf(node) != 0) paths.append("\n");
 
-                    paths.append(dijkstra.showPath(source, node));
+                    paths.append(dijkstra.printPath(source, node));
                 }
 
                 taResult.setText(paths.toString());

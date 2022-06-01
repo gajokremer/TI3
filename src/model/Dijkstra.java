@@ -4,7 +4,8 @@ import java.util.*;
 
 public class Dijkstra<T> {
 
-    public Graph<T> calculateShortestPathFromSource(Graph<T> graph, Node<T> source) {
+//    public Graph<T> calculateShortestPathFromSource(Graph<T> graph, Node<T> source) {
+    public void calculateShortestPathFromSource(Graph<T> graph, Node<T> source) {
 
         source.setDistance(0.0);
 
@@ -38,7 +39,7 @@ public class Dijkstra<T> {
             settledNodes.add(currentNode);
         }
 
-        return graph;
+//        return graph;
     }
 
     private void calculateMinimumDistance(Node<T> evaluationNode,
@@ -77,24 +78,9 @@ public class Dijkstra<T> {
         return lowestDistanceNode;
     }
 
-//    public String showPath(Graph<T> graph, Node<T> source, Node<T> destination) {
-    public String showPath(Node<T> source, Node<T> destination) {
+    public String printPath(Node<T> source, Node<T> destination) {
 
         return "From " + source.getData() + " to " +
                         destination.getData() + ": " + destination.getDistance();
-
-//        String line = "From " + source.getValue() + " to " +
-//                        destination.getValue() + ": ";
-//
-//            if (destination.getDistance() == Integer.MAX_VALUE) {
-//
-//                line += Double.POSITIVE_INFINITY;
-//
-//            } else {
-//
-//                line += destination.getDistance();
-//            }
-//
-//            return line;
     }
 }

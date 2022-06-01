@@ -118,7 +118,6 @@ public class Menu {
                 if (!s.isEmpty()) {
 
                     String data = otherLine[0];
-//                    double distance = Double.parseDouble(otherLine[1]);
                     double distance;
 
                     if (otherLine[1].equals("-")) {
@@ -130,9 +129,9 @@ public class Menu {
                         distance = Double.parseDouble(otherLine[1]);
                     }
 
-                    Node<String> destinationNode = graph.getNode(nodeList, data);
+//                    Node<String> destinationNode = graph.getSpecificNode(nodeList, data);
 
-//                System.out.println("\naNode: " + aNode);
+                    Node<String> destinationNode = graph.getNodeFromList(nodeList, data);
 
                     if (destinationNode != null) {
 
@@ -156,7 +155,8 @@ public class Menu {
         System.out.print("\nSource Node: ");
         String data = sc.nextLine();
 
-        Node<String> sourceNode = graph.getNode(graph.getNodes(), data);
+//        Node<String> sourceNode = graph.getSpecificNode(graph.getNodes(), data);
+        Node<String> sourceNode = graph.getSpecificNode(data);
 
         if (sourceNode != null){
 
@@ -183,12 +183,13 @@ public class Menu {
         System.out.print("\nSource Node: ");
         String data = sc.nextLine();
 
-        Node<String> sourceNode = graph.getNode(graph.getNodes(), data);
+        Node<String> sourceNode = graph.getSpecificNode(data);
         Dijkstra<String> dijkstra = new Dijkstra<>();
 
         if (sourceNode != null) {
 
-            graph = dijkstra.calculateShortestPathFromSource(graph, sourceNode);
+//            graph = dijkstra.calculateShortestPathFromSource(graph, sourceNode);
+            dijkstra.calculateShortestPathFromSource(graph, sourceNode);
 
             allShortestPaths(graph, sourceNode, dijkstra);
 
@@ -205,7 +206,7 @@ public class Menu {
         for (Node<String> node : aGraph.getNodes()) {
 
 //            System.out.println("-" + dijkstra.showPath(auxGraph, sourceNode, node));
-            System.out.println("-" + dijkstra.showPath(sourceNode, node));
+            System.out.println("-" + dijkstra.printPath(sourceNode, node));
         }
     }
 

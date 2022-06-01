@@ -39,7 +39,21 @@ public class Graph<T> {
         this.nodes = nodes;
     }
 
-    public Node<T> getNode(List<Node<T>> nodeList, T data) {
+//    public Node<T> getSpecificNode(List<Node<T>> nodeList, T data) {
+    public Node<T> getSpecificNode(T data) {
+
+        for (Node<T> node : nodes) {
+
+            if (node.getData().equals(data)) {
+
+                return node;
+            }
+        }
+
+        return null;
+    }
+
+    public Node<T> getNodeFromList(List<Node<T>> nodeList, T data) {
 
         for (Node<T> node : nodeList) {
 

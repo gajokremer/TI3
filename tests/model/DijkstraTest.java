@@ -2,6 +2,8 @@ package model;
 
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 class DijkstraTest {
 
     public Graph<Integer> setUpScenario1() {
@@ -149,13 +151,11 @@ class DijkstraTest {
         Node<String> nodeE = graph.getNodes().get(4);
 
         Dijkstra<String> dijkstra = new Dijkstra<>();
-
         dijkstra.calculateShortestPathFromSource(graph, nodeA);
 
-        for (Node<String> node : graph.getNodes()) {
-
-            System.out.println(dijkstra.showPath(nodeA, node));
-        }
+        assertEquals(32, graph.getSpecificNode("B").getDistance());
+        assertEquals(12, graph.getSpecificNode("C").getDistance());
+        assertEquals(Double.POSITIVE_INFINITY, graph.getSpecificNode("E").getDistance());
 
 //        From A to A: 0.0
 //        From A to B: 32.0
@@ -168,21 +168,29 @@ class DijkstraTest {
 
         dijkstra.calculateShortestPathFromSource(graph, nodeE);
 
-        for (Node<String> node : graph.getNodes()) {
-
-            System.out.println(dijkstra.showPath(nodeE, node));
-        }
+        assertEquals(7, graph.getSpecificNode("A").getDistance());
+        assertEquals(51, graph.getSpecificNode("D").getDistance());
+        assertEquals(0, graph.getSpecificNode("E").getDistance());
 //
 //        From E to A: 7.0
 //        From E to B: 39.0
 //        From E to C: 19.0
 //        From E to D: 51.0
 //        From E to E: 0.0
-
-
     }
 
     @Test
-    void showPath() {
+    void printPath() {
+
+        Graph<String> graph = setUpScenario3();
+        Node<String> sourceNode = graph.getSpecificNode("A");
+
+        Dijkstra<String> dijkstra = new Dijkstra<>();
+        dijkstra.calculateShortestPathFromSource(graph, sourceNode);
+
+        String expectedReturn = "From A to B: 6.0";
+        String actualReturn = dijkstra.printPath(sourceNode, graph.getSpecificNode("B"));
+
+        assertEquals(expectedReturn, actualReturn);
     }
 }
