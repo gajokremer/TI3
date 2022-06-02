@@ -12,16 +12,6 @@ public class Graph<T> {
         nodes = new ArrayList<>(n);
     }
 
-    public boolean addNode(Node<T> node) {
-
-        if (!nodes.contains(node) && nodes.size() < n) {
-
-            nodes.add(node);
-            return true;
-        }
-
-        return false;
-    }
 
     public int getN() {
         return n;
@@ -37,6 +27,17 @@ public class Graph<T> {
 
     public void setNodes(List<Node<T>> nodes) {
         this.nodes = nodes;
+    }
+
+    public boolean addNode(Node<T> node) {
+
+        if (!nodes.contains(node) && nodes.size() < n) {
+
+            nodes.add(node);
+            return true;
+        }
+
+        return false;
     }
 
 //    public Node<T> getSpecificNode(List<Node<T>> nodeList, T data) {
