@@ -110,7 +110,7 @@ public class ControllerGUI {
 
             if (size <= 50 && size > 0) {
 
-                graph = new Graph<>(size);
+//                graph = new Graph<>(size);
 
                 tfSystemSize.setText("");
 
@@ -141,6 +141,8 @@ public class ControllerGUI {
     void addDestinations(ActionEvent event) throws InterruptedException {
 
         if (!taDestinations.getText().isEmpty()) {
+
+            graph = new Graph<>(size);
 
             String[] destinations = taDestinations.getText().split("\n");
 
@@ -362,6 +364,17 @@ public class ControllerGUI {
                     if (graph.getNodes().indexOf(node) != 0) paths.append("\n");
 
                     paths.append(dijkstra.printPath(source, node));
+
+                    paths.append("  ->  [");
+
+                    for (int i = 0; i < node.getShortestPath().size(); i++) {
+
+                        paths.append(node.getShortestPath().get(i).getData());
+
+                        if (i != node.getShortestPath().size()) paths.append(", ");
+                    }
+
+                    paths.append(node.getData()).append("]");
                 }
 
                 taResult.setText(paths.toString());

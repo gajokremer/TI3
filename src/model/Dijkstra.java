@@ -4,13 +4,10 @@ import java.util.*;
 
 public class Dijkstra<T> {
 
-//    public Graph<T> calculateShortestPathFromSource(Graph<T> graph, Node<T> source) {
     public void calculateShortestPathFromSource(Graph<T> graph, Node<T> source) {
 
         source.setDistance(0.0);
 
-//        Set<GenericNode<T>> settledNodes = new HashSet<>();
-//        Set<Graph.Node> unsettledNodes = new HashSet<>();
         List<Node<T>> settledNodes = new ArrayList<>();
         List<Node<T>> unsettledNodes = new ArrayList<>();
 
@@ -21,12 +18,10 @@ public class Dijkstra<T> {
             Node<T> currentNode = getLowestDistanceNode(unsettledNodes);
             unsettledNodes.remove(currentNode);
 
-//            for (Map.Entry<Node, Integer> adjacencyPair :
             for (Map.Entry<Node<T>, Double> adjacencyPair :
                     currentNode.getAdjacentNodes().entrySet()) {
 
                 Node<T> adjacentNode = adjacencyPair.getKey();
-//                Integer edgeWeight = adjacencyPair.getValue();
                 double edgeWeight = adjacencyPair.getValue();
 
                 if (!settledNodes.contains(adjacentNode)) {
@@ -38,8 +33,6 @@ public class Dijkstra<T> {
 
             settledNodes.add(currentNode);
         }
-
-//        return graph;
     }
 
     private void calculateMinimumDistance(Node<T> evaluationNode,
@@ -57,11 +50,9 @@ public class Dijkstra<T> {
         }
     }
 
-//    private Graph.Node getLowestDistanceNode(Set<Graph.Node> unsettledNodes) {
     private Node<T> getLowestDistanceNode(List<Node<T>> unsettledNodes) {
 
         Node<T> lowestDistanceNode = null;
-//        int lowestDistance  = Integer.MAX_VALUE;
         double lowestDistance = Double.POSITIVE_INFINITY;
 
         for (Node<T> node : unsettledNodes) {

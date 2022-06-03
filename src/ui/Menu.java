@@ -193,6 +193,12 @@ public class Menu {
 
             allShortestPaths(graph, sourceNode, dijkstra);
 
+            System.out.println();
+            for (Node<String> node : graph.getNodes()) {
+
+                System.out.println(node.getData() + ": " + node.getShortestPath());
+            }
+
         } else {
 
             System.out.println("--Node " + data + " doesn't exist");
