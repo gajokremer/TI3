@@ -21,7 +21,7 @@ public class ControllerGUI {
 
     private Graph<String> graph;
     private int size;
-    private boolean[] assigned;
+//    private boolean[] assigned;
 
     public ControllerGUI() {
     }
@@ -108,7 +108,7 @@ public class ControllerGUI {
 
             size = Integer.parseInt(tfSystemSize.getText());
 
-            if (size <= 50) {
+            if (size <= 50 && size > 0) {
 
                 graph = new Graph<>(size);
 
@@ -127,7 +127,7 @@ public class ControllerGUI {
 
             } else {
 
-                showWarningDialogue("System creation error", "The system can't exceed size 50.");
+                showWarningDialogue("System creation error", "The system size must be between 1 and 50.");
                 tfSystemSize.setText("");
             }
 
@@ -156,8 +156,8 @@ public class ControllerGUI {
 
                 graph.getNodes().addAll(nodeList);
 
-                assigned = new boolean[size];
-                Arrays.fill(assigned, false);
+//                assigned = new boolean[size];
+//                Arrays.fill(assigned, false);
 
                 taDestinations.setEditable(false);
 
@@ -191,6 +191,9 @@ public class ControllerGUI {
 
                 int originIndex = graph.getNodes().indexOf(origin);
 
+                boolean[] assigned = new boolean[size];
+                Arrays.fill(assigned, false);
+
                 if (!assigned[originIndex]) {
 
                     if (origin != null) {
@@ -215,18 +218,27 @@ public class ControllerGUI {
                                     distance = Double.parseDouble(line[1]);
                                 }
 
-                                Node<String> destinationNode = graph.getNodeFromList(graph.getNodes(), destinationData);
+//                                Node<String> destinationNode = graph.getNodeFromList(graph.getNodes(), destinationData);
+                                Node<String> destinationNode = graph.getSpecificNode(destinationData);
 
-                                if (destinationNode != null) {
+                                if (distance >= 0) {
 
-                                    origin.addDestination(destinationNode, distance);
-                                    assigned[originIndex] = true;
+                                    if (destinationNode != null) {
+
+                                        origin.addDestination(destinationNode, distance);
+                                        assigned[originIndex] = true;
+
+                                    } else {
+
+                                        assigned[originIndex] = false;
+                                        showWarningDialogue("Adjacency assignation error",
+                                                "Destination '" + destinationData + "' doesn't exist.");
+                                    }
 
                                 } else {
 
-                                    assigned[originIndex] = false;
                                     showWarningDialogue("Adjacency assignation error",
-                                            "Destination '" + destinationData + "' doesn't exist.");
+                                            "The distance must be a positive number.");
                                 }
                             }
                         }
@@ -280,8 +292,8 @@ public class ControllerGUI {
 
         } else {
 
-            showWarningDialogue("Optimization error",
-                    "There must be a system in order to optimize it.");
+            showWarningDialogue("More Options error",
+                    "There must be an existing system first.");
         }
     }
 
